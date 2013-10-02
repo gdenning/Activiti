@@ -117,7 +117,21 @@
         <groupId>org.activiti</groupId>
         <artifactId>activiti-simple-workflow</artifactId>
     </dependency>
-    
+    <dependency>
+        <groupId>org.activiti</groupId>
+        <artifactId>activiti-camel</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>org.apache.camel</groupId>
+        <artifactId>camel-jms</artifactId>
+        <version>2.11.2</version>
+    </dependency>
+    <dependency>
+        <groupId>org.apache.camel</groupId>
+        <artifactId>camel-jackson</artifactId>
+        <version>2.11.2</version>
+    </dependency>
+
     <!-- Logging, using Log4j as SLF4J implementation -->
     <dependency>
       <groupId>org.slf4j</groupId>
