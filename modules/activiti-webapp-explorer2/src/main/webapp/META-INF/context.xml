@@ -14,4 +14,11 @@
               maxWait="5000"
               maxActive="120"
               maxIdle="5"/>
+<Context antiJARLocking="true" path="/activiti-explorer2">
+	<Resource auth="Container"
+	          name="jms/JMSConnectionFactory"
+	          type="org.apache.activemq.ActiveMQConnectionFactory"
+	          description="JMS Connection Factory"
+	          factory="org.apache.activemq.jndi.JNDIReferenceFactory"
+	          brokerURL="tcp://localhost:61616"/>
 </Context>
