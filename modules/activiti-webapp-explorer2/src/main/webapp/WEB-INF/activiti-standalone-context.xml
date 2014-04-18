@@ -9,16 +9,6 @@
        
   <!-- This Spring config file is NOT used in Alfresco, as the Activiti engine is wired in a different way there -->
        
-  <bean id="demoDataGenerator" class="org.activiti.explorer.demo.DemoDataGenerator" init-method="init">
-    <property name="processEngine" ref="processEngine" />
-    
-    <!-- Set following properties to false if certain demo data is not wanted -->
-    <property name="createDemoUsersAndGroups" value="true" />
-    <property name="createDemoProcessDefinitions" value="true" />
-    <property name="createDemoModels" value="true" />
-    <property name="generateReportData" value="true" />
-  </bean>
-  
   <bean id="dbProperties" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
     <property name="location" value="classpath:db.properties" />
     <!-- Allow other PropertyPlaceholderConfigurer to run as well -->
@@ -36,7 +26,7 @@
   <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
   	<property name="dataSource" ref="dataSource" />
   </bean>
-  
+
   <bean id="processEngineConfiguration" class="org.activiti.spring.SpringProcessEngineConfiguration">
   	<property name="dataSource" ref="dataSource" />
   	<property name="transactionManager" ref="transactionManager" />
@@ -45,12 +35,43 @@
     <property name="customFormTypes">
       <list>
         <bean class="org.activiti.explorer.form.UserFormType"/>
-        <bean class="org.activiti.explorer.form.ProcessDefinitionFormType"/> 
-        <bean class="org.activiti.explorer.form.MonthFormType"/>   
+        <bean class="org.activiti.explorer.form.ProcessDefinitionFormType"/>
+        <bean class="org.activiti.explorer.form.MonthFormType"/>
       </list>
     </property>
+      <property name="configurators">
+          <list>
+              <bean class="org.activiti.ldap.LDAPConfigurator">
+
+                  <!-- Server connection params -->
+                  <property name="server" value="ldap://localhost" />
+                  <property name="port" value="33389" />
+                  <property name="user" value="uid=admin, ou=users, o=activiti" />
+                  <property name="password" value="pass" />
+
+                  <!-- Query params -->
+                  <property name="baseDn" value="o=activiti" />
+                  <property name="queryUserByUserId" value="(&amp;(objectClass=inetOrgPerson)(uid={0}))" />
+                  <property name="queryUserByFullNameLike" value="(&amp;(objectClass=inetOrgPerson)(|({0}=*{1}*)({2}=*{3}*)))" />
+                  <property name="queryGroupsForUser" value="(&amp;(objectClass=groupOfUniqueNames)(uniqueMember={0}))" />
+
+                  <!-- Attribute config -->
+                  <property name="userIdAttribute" value="uid" />
+                  <property name="userFirstNameAttribute" value="cn" />
+                  <property name="userLastNameAttribute" value="sn" />
+
+                  <property name="groupIdAttribute" value="uid" />
+                  <property name="groupNameAttribute" value="cn" />
+
+                  <!-- Group cache settings -->
+                  <property name="groupCacheSize" value="2" /> <!-- Setting it really low for testing purposes -->
+                  <property name="groupCacheExpirationTime" value="1800000" />
+
+              </bean>
+          </list>
+      </property>
   </bean>
-  
+
   <bean id="processEngine" class="org.activiti.spring.ProcessEngineFactoryBean" destroy-method="destroy">
   	<property name="processEngineConfiguration" ref="processEngineConfiguration" />
   </bean>

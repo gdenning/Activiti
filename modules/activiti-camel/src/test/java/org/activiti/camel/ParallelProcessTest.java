@@ -23,13 +23,13 @@ import org.springframework.test.context.ContextConfiguration;
 @ContextConfiguration("classpath:camel-activiti-context.xml")
 public class ParallelProcessTest extends SpringActivitiTestCase {
 
-  @Autowired
-  RuntimeService runtimeService;
+	@Autowired
+	RuntimeService runtimeService;
 
-  @Deployment(resources = {"process/parallel.bpmn20.xml"})
-  public void testRunProcess() throws Exception {
-    ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("parallelCamelProcess");
-    Thread.sleep(4000);
-    assertEquals(0, runtimeService.createProcessInstanceQuery().processInstanceId(processInstance.getId()).count());
-  }
+	@Deployment(resources = {"process/parallel.bpmn20.xml"})
+	public void testRunProcess() throws Exception {
+		ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("parallelCamelProcess");
+		Thread.sleep(4000);
+		assertEquals(0, runtimeService.createProcessInstanceQuery().processInstanceId(processInstance.getId()).count());
+	}
 }

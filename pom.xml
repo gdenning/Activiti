@@ -248,6 +248,11 @@
         <artifactId>activiti-bpmn-layout</artifactId>
         <version>${project.version}</version>
       </dependency>
+      <dependency>
+        <groupId>org.activiti</groupId>
+        <artifactId>activiti-ldap</artifactId>
+        <version>${project.version}</version>
+      </dependency> 
       <!-- EMAIL -->
       <dependency>
         <groupId>org.apache.commons</groupId>
